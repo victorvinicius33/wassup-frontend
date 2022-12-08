@@ -1,0 +1,27 @@
+.modal-options {
+  width: 200px;
+
+  position: absolute;
+  top: 40px;
+  right: 10px;
+
+  background-color: #233138;
+  border-radius: 3px;
+  box-shadow: 0 2px 5px 0 rgba(11, 20, 26, .26),0 2px 10px 0 rgba(11, 20, 26, .16);
+}
+
+.modal-options ul {
+  list-style: none;
+}
+
+.modal-options li {
+  cursor: pointer;
+  
+  padding: 12px 24px;
+
+  color: #D1D7DB;
+}
+
+.modal-options li:hover {
+  opacity: 0.5;
+}

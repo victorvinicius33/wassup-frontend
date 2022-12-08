@@ -1,0 +1,113 @@
+.sign-up {
+  min-height: 100vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: #111B21;
+
+  font-family: var(--fs-rubik);
+}
+
+.sign-up__main {
+  padding: 32px 32px;
+
+  border-radius: 8px;
+  border: 1px solid #555555;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  background-color: #202C33;
+}
+
+.sign-up__main h2 {
+  font-weight: 500;
+  font-size: 2.8rem;
+
+  align-self: center;
+  margin-bottom: 18px;
+  color: #00A884;
+}
+
+.sign-up__main form {
+  display: flex;
+  flex-direction: column;
+
+  position: relative;
+
+  gap: 5px;
+  margin-bottom: 8px;
+}
+
+.sign-up__main form label {
+  margin-bottom: 0.5rem;
+
+  font-weight: 400;
+  font-size: 1.8rem;
+
+  color: #E9EDEFE0;
+}
+
+.sign-up__main form input {
+  all: unset;
+
+  width: 300px;
+
+  padding: 12px 0;
+  margin-bottom: 5px;
+
+  padding-left: 15px;
+
+  border: 1px solid #555555;
+  border-radius: 5px;
+
+  font-size: 1.6rem;
+
+  background-color: #111B21;
+  color: #E9EDEFE0;
+}
+
+.sign-up__main form button {
+  cursor: pointer;
+  
+  height: 43px;
+  margin-top: 7px;
+  margin-bottom: 8px;
+
+  font-weight: 700;
+  font-size: 1.4rem;
+  text-align: center;
+
+  border: none;
+  border-radius: 5px;
+
+  background-color: #00A884;
+  color: #ffffff;
+  opacity: 1;
+
+  font-family: var(--fs-rubik);
+}
+
+.sign-up__main button:hover {
+  opacity: 0.9;
+}
+
+.link-to-sign-in {
+  cursor: pointer;
+
+  text-align: center;
+
+  font-weight: 700;
+
+  color: #00A884;
+}
+
+.sign-up__error-message {
+  font-size: 1.6rem;
+
+  color: #ff0000;
+}
