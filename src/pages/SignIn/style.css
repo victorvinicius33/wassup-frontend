@@ -11,6 +11,8 @@
 }
 
 .sign-in__main {
+  position: relative;
+
   padding: 48px 32px;
 
   border-radius: 8px;

@@ -5,6 +5,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { validationLoginForm } from '../../validations/validationLoginForm';
 import { setItem, getItem } from '../../utils/localStorage';
 import api from '../../services/api';
+import Header from '../../components/Header';
 
 function SignIn() {
   const [email, setEmail] = useState('');
@@ -64,6 +65,8 @@ function SignIn() {
 
   return (
     <div className='sign-in'>
+      <Header />
+      
       <main className='sign-in__main'>
         <h2>Login</h2>
 

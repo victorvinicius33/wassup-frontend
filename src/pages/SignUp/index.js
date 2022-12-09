@@ -3,9 +3,15 @@ import './style.css';
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { validationSignUpForm } from '../../validations/validationSignUpForm';
+import useGlobal from '../../hooks/useGlobal';
 import api from '../../services/api';
+import Header from '../../components/Header';
 
 function SignUp() {
+  const {
+    setOpenModalSuccess,
+    setSuccessMessage,
+  } = useGlobal();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -40,6 +46,8 @@ function SignUp() {
       if (response.status > 204) return;
 
       handleClearForm();
+      setSuccessMessage('Usuário cadastrado com sucesso!');
+      setOpenModalSuccess(true);
       navigate('/');
     } catch (error) {
       if (error.response.status >= 500) {
@@ -59,6 +67,8 @@ function SignUp() {
 
   return (
     <div className='sign-up'>
+      <Header />
+      
       <div className='sign-up__main'>
         <h2>Cadastre-se</h2>
 
