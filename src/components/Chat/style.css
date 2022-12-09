@@ -39,64 +39,6 @@
   font-size: 1.6rem;
 }
 
-.chat__body {
-  max-height: calc(95% - 120px);
-  min-height: calc(95% - 120px);
-
-  overflow-y: scroll;
-  overflow-wrap: break-word;
-  white-space: pre-wrap;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-
-  gap: 10px;
-
-  padding: 0 50px 32px 70px;
-  padding: 0 50px 0 70px;
-}
-
-.message {
-  max-width: 45%;
-
-  padding: 3px 7px 6px 9px;
-  border-radius: 7.5px;
-
-  background-color: #FFFFFF;
-}
-
-#you {
-  align-self: end;
-  background-color: #005C4B;
-}
-
-#other {
-  align-self: start;
-  background-color: #202C33;
-}
-
-.message__container {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.message__content {
-  max-width: 90%;
-  overflow-wrap: break-word;
-  font-size: 1.4rem;
-  color: #E9EDEF;
-}
-
-.message__timestamp {
-  padding-top: 12px;
-  align-self: end;
-
-  font-size: 1.1rem;
-  color: hsla(0, 0%, 100%, 0.6);
-}
-
 .chat__footer {
   height: 60px;
 

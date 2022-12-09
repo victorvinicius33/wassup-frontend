@@ -8,7 +8,6 @@ import ModalAddContact from '../../components/ModalAddContact';
 import Chat from '../../components/Chat';
 import api from '../../services/api';
 import { getItem } from '../../utils/localStorage';
-import useGlobal from '../../hooks/useGlobal';
 import { useState, useEffect } from 'react';
 import io from 'socket.io-client';
 

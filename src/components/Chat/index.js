@@ -14,11 +14,9 @@ function Chat({
   allRooms,
   conversationData,
   setConversationData,
-  currentChatShowing
 }) {
   const token = getItem('token');
   const [currentMessage, setCurrentMessage] = useState('');
-  //const [conversationData, setConversationData] = useState([]);
 
   async function sendMessage() {
     if (currentMessage === '') return;
@@ -67,13 +65,7 @@ function Chat({
   }
 
   useEffect(() => {
-    
-    
-
     socket.on('receive_message', (data) => {
-      console.log(currentChatShowing)
-    console.log(currentConversation)
-      if (currentChatShowing.email !== currentConversation.email) return;
       setConversationData((list) => [...list, data]);
     });
   }, [socket]);

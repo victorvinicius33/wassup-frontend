@@ -4,11 +4,9 @@ import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { validationLoginForm } from '../../validations/validationLoginForm';
 import { setItem, getItem } from '../../utils/localStorage';
-import useGlobal from '../../hooks/useGlobal';
 import api from '../../services/api';
 
 function SignIn() {
-  const { setUserData, setUserContacts } = useGlobal();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
