@@ -1,11 +1,9 @@
 import './style.css';
 import api from '../../services/api';
 import { getItem } from '../../utils/localStorage';
-import useGlobal from '../../hooks/useGlobal';
 import { useState } from 'react';
 
-function ModalAddContact({ setShowAddContact }) {
-  const { setUserContacts, userContacts } = useGlobal();
+function ModalAddContact({ setShowAddContact, setUserContacts, userContacts }) {
   const token = getItem('token');
   const [email, setEmail] = useState('');
   const [error, setError] = useState('');

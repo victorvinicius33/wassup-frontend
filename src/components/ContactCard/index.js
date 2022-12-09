@@ -1,10 +1,14 @@
 import './style.css';
 import DefaultProfilePicture from '../../assets/IMG_3084.jpg';
 
-function ContactCard({ contact, setCurrentConversation }) {
-  
+function ContactCard({ contact, setCurrentConversation, setCurrentChatShowing }) {
+  function handleContactSelected() {
+    setCurrentChatShowing(contact);
+    setCurrentConversation(contact)
+  }
+
   return (
-    <div className='contact' onClick={() => setCurrentConversation(contact)}>
+    <div className='contact' onClick={handleContactSelected}>
       <span className='contact__img-container'>
         <img src={DefaultProfilePicture} alt='usuário' />
       </span>

@@ -44,11 +44,9 @@ function SignIn() {
 
       if (response.status > 204) return;
 
-      const { token, user, contacts } = response.data;
+      const { token } = response.data;
 
       setItem('token', token);
-      setUserContacts(contacts);
-      setUserData({ ...user });
 
       handleClearForm();
       navigate('/home');

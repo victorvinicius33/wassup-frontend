@@ -10,45 +10,95 @@ import api from '../../services/api';
 import { getItem } from '../../utils/localStorage';
 import useGlobal from '../../hooks/useGlobal';
 import { useState, useEffect } from 'react';
+import io from 'socket.io-client';
+
+const socket = io.connect('http://localhost:8000');
 
 function Home() {
   const token = getItem('token');
-  const { userData, userContacts } = useGlobal();
+  const [userData, setUserData] = useState({});
+  const [userContacts, setUserContacts] = useState([]);
   const [currentConversation, setCurrentConversation] = useState({});
   const [showOptions, setShowOptions] = useState(false);
   const [showAddContact, setShowAddContact] = useState(false);
-  const [room, setRoom] = useState(null);
+  const [allRooms, setAllRooms] = useState([]);
+  const [conversationData, setConversationData] = useState([]);
+  const [currentChatShowing, setCurrentChatShowing] = useState({});
 
   useEffect(() => {
-    async function joinRoom() {
+    async function getUserData() {
       try {
-        const response = await api.get(
-          '/room',
-          {
-            first_user_email: userData.email,
-            second_user_email: currentConversation.email,
+        const response = await api.get('/user', {
+          headers: {
+            Authorization: `Bearer ${token}`,
           },
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        });
 
         if (response.status > 204) return;
 
-        setRoom(response.data.id);
+        const { contacts, ...userInfo } = response.data;
+
+        setUserData(userInfo);
+        setUserContacts(contacts);
       } catch (error) {
         console.log(error);
       }
     }
 
-    if (currentConversation.email) {
-      joinRoom();
+    async function getAllChatRooms() {
+      try {
+        const response = await api.get('/room', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (response.status > 204) return;
+
+        const rooms = response.data;
+        rooms.forEach((room) => {
+          socket.emit('join_room', room.id);
+        });
+
+        setAllRooms([...rooms]);
+      } catch (error) {
+        console.log(error);
+      }
     }
 
-    console.log(currentConversation);
-    console.log(userData);
+    getUserData();
+    getAllChatRooms();
+  }, []);
+
+  useEffect(() => {
+    if (Object.keys(currentConversation).length === 0) return;
+
+    async function getMessages() {
+      try {
+        const response = await api.get('/chat', {
+          params: {
+            first_user_email: userData.email,
+            second_user_email: currentConversation.email,
+          },
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (response.status > 204) return;
+
+        const sortedArray = response.data.sort((a, b) => {
+          return new Date(a.date) - new Date(b.date);
+        });
+
+        setConversationData(sortedArray);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    getMessages();
   }, [currentConversation]);
 
   return (
@@ -77,16 +127,35 @@ function Home() {
               contact={contact}
               key={contact.id}
               setCurrentConversation={setCurrentConversation}
+              setCurrentChatShowing={setCurrentChatShowing}
             />
           ))}
         </div>
       </div>
       <div className='home__right'>
-        <Chat userData={userData} currentConversation={currentConversation} />
+        {Object.keys(currentConversation).length === 0 ? (
+          <div className='chat-empty'>
+            <h2>Inicie uma nova conversa!</h2>
+          </div>
+        ) : (
+          <Chat
+            userData={userData}
+            currentConversation={currentConversation}
+            socket={socket}
+            allRooms={allRooms}
+            conversationData={conversationData}
+            setConversationData={setConversationData}
+            currentChatShowing={currentChatShowing}
+          />
+        )}
       </div>
 
       {showAddContact && (
-        <ModalAddContact setShowAddContact={setShowAddContact} />
+        <ModalAddContact
+          setShowAddContact={setShowAddContact}
+          setUserContacts={setUserContacts}
+          userContacts={userContacts}
+        />
       )}
     </div>
   );
