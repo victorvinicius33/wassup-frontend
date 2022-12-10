@@ -93,6 +93,7 @@ function Home() {
               key={contact.id}
               contact={contact}
               setCurrentConversation={setCurrentConversation}
+              currentConversation={currentConversation}
             />
           ))}
         </div>
@@ -108,6 +109,7 @@ function Home() {
               (currentConversation.email === room.first_user_email ||
                 currentConversation.email === room.second_user_email) && (
                 <Chat
+                  key={room.id}
                   userData={userData}
                   currentConversation={currentConversation}
                   socket={socket}

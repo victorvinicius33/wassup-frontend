@@ -26,27 +26,17 @@ function Chat({ userData, currentConversation, socket, room }) {
     await socket.emit('send_message', messageData);
 
     try {
-      await api.post(
-        '/chat',
-        {
-          room: room.id,
-          sent_by: userData.email,
-          received_by: currentConversation.email,
-          message_data: currentMessage,
-          time_sent: new Date(Date.now()).toLocaleString('pt-BR'),
+      const response = await api.post('/chat', messageData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
         },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      });
+
+      setConversationData((list) => [...list, response.data[0]]);
+      setCurrentMessage('');
     } catch (error) {
       console.log(error);
     }
-
-    setConversationData((list) => [...list, messageData]);
-    setCurrentMessage('');
   }
 
   useEffect(() => {
@@ -101,7 +91,7 @@ function Chat({ userData, currentConversation, socket, room }) {
 
     getMessages();
   }, [currentConversation]);
-  
+
   return (
     <div className='chat__container'>
       <div className='chat__header'>

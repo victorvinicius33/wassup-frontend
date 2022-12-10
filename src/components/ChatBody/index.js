@@ -6,6 +6,7 @@ function ChatBody({ conversationData, currentConversation }) {
       {conversationData.map((message) => {
         return (
           <div
+            key={message.id}
             className='message'
             id={
               currentConversation.email === message.received_by
