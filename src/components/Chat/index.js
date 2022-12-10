@@ -50,17 +50,14 @@ function Chat({ userData, currentConversation, socket, room }) {
   }
 
   useEffect(() => {
-    if (
-      currentConversation.email === room.first_user_email ||
-      currentConversation.email === room.second_user_email
-    ) {
-      console.log(currentConversation.email);
-      console.log(room);
-      console.log(socket);
-      socket.on('receive_message', (data) => {
+    socket.on('receive_message', (data) => {
+      if (
+        data.sent_by === room.first_user_email ||
+        data.sent_by === room.second_user_email
+      ) {
         setConversationData((list) => [...list, data]);
-      });
-    }
+      }
+    });
   }, [socket]);
 
   useEffect(() => {

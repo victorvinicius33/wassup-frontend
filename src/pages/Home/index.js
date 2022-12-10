@@ -21,8 +21,6 @@ function Home() {
   const [showOptions, setShowOptions] = useState(false);
   const [showAddContact, setShowAddContact] = useState(false);
   const [allRooms, setAllRooms] = useState([]);
-  const [conversationData, setConversationData] = useState([]);
-  const [currentChatShowing, setCurrentChatShowing] = useState({});
 
   useEffect(() => {
     async function getUserData() {
@@ -68,37 +66,6 @@ function Home() {
     getUserData();
     getAllChatRooms();
   }, []);
-
-  /*useEffect(() => {
-    if (Object.keys(currentConversation).length === 0) return;
-
-    async function getMessages() {
-      try {
-        const response = await api.get('/chat', {
-          params: {
-            first_user_email: userData.email,
-            second_user_email: currentConversation.email,
-          },
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-        });
-
-        if (response.status > 204) return;
-
-        const sortedArray = response.data.sort((a, b) => {
-          return new Date(a.date) - new Date(b.date);
-        });
-
-        setConversationData(sortedArray);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-
-    getMessages();
-  }, [currentConversation]); */
 
   return (
     <div className='home'>
