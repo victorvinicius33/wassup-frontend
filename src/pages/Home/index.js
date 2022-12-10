@@ -17,7 +17,7 @@ function Home() {
   const token = getItem('token');
   const [userData, setUserData] = useState({});
   const [userContacts, setUserContacts] = useState([]);
-  const [currentConversation, setCurrentConversation] = useState({});
+  const [currentContactSelected, setcurrentContactSelected] = useState({});
   const [showOptions, setShowOptions] = useState(false);
   const [showAddContact, setShowAddContact] = useState(false);
   const [allRooms, setAllRooms] = useState([]);
@@ -92,26 +92,26 @@ function Home() {
             <ContactCard
               key={contact.id}
               contact={contact}
-              setCurrentConversation={setCurrentConversation}
-              currentConversation={currentConversation}
+              setcurrentContactSelected={setcurrentContactSelected}
+              currentContactSelected={currentContactSelected}
             />
           ))}
         </div>
       </div>
       <div className='home__right'>
-        {Object.keys(currentConversation).length === 0 ? (
+        {Object.keys(currentContactSelected).length === 0 ? (
           <div className='chat-empty'>
             <h2>Inicie uma nova conversa!</h2>
           </div>
         ) : (
           allRooms.map(
             (room) =>
-              (currentConversation.email === room.first_user_email ||
-                currentConversation.email === room.second_user_email) && (
+              (currentContactSelected.email === room.first_user_email ||
+                currentContactSelected.email === room.second_user_email) && (
                 <Chat
                   key={room.id}
                   userData={userData}
-                  currentConversation={currentConversation}
+                  currentContactSelected={currentContactSelected}
                   socket={socket}
                   room={room}
                 />

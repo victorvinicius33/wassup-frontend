@@ -1,6 +1,18 @@
 import './style.css';
+import { useEffect } from 'react';
 
-function ChatBody({ conversationData, currentConversation }) {
+function ChatBody({ conversationData, currentContactSelected }) {
+  useEffect(() => {
+    if (
+      conversationData.length === 0 &&
+      Object.keys(currentContactSelected).length === 0
+    )
+      return;
+
+    const chatContainer = document.querySelector('.chat__body');
+    chatContainer.scrollTop = chatContainer.scrollHeight;
+  }, [conversationData, currentContactSelected]);
+
   return (
     <div className='chat__body'>
       {conversationData.map((message) => {
@@ -9,7 +21,7 @@ function ChatBody({ conversationData, currentConversation }) {
             key={message.id}
             className='message'
             id={
-              currentConversation.email === message.received_by
+              currentContactSelected.email === message.received_by
                 ? 'you'
                 : 'other'
             }

@@ -1,13 +1,13 @@
 import './style.css';
 import DefaultProfilePicture from '../../assets/IMG_3084.jpg';
 
-function ContactCard({ contact, setCurrentConversation, currentConversation }) {
+function ContactCard({ contact, setcurrentContactSelected, currentContactSelected }) {
   return (
     <div
       className={`contact contact${
-        currentConversation.email === contact.email ? '--selected' : ''
+        currentContactSelected.email === contact.email ? '--selected' : ''
       }`}
-      onClick={() => setCurrentConversation(contact)}
+      onClick={() => setcurrentContactSelected(contact)}
     >
       <span className='contact__img-container'>
         <img src={DefaultProfilePicture} alt='usuário' />

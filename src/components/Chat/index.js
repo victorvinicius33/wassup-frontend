@@ -7,7 +7,7 @@ import { getItem } from '../../utils/localStorage';
 import { useEffect, useState } from 'react';
 import ChatBody from '../ChatBody';
 
-function Chat({ userData, currentConversation, socket, room }) {
+function Chat({ userData, currentContactSelected, socket, room }) {
   const token = getItem('token');
   const [currentMessage, setCurrentMessage] = useState('');
   const [conversationData, setConversationData] = useState([]);
@@ -18,7 +18,7 @@ function Chat({ userData, currentConversation, socket, room }) {
     const messageData = {
       room: room.id,
       sent_by: userData.email,
-      received_by: currentConversation.email,
+      received_by: currentContactSelected.email,
       message_data: currentMessage,
       time_sent: new Date(Date.now()).toLocaleString('pt-BR'),
     };
@@ -51,25 +51,14 @@ function Chat({ userData, currentConversation, socket, room }) {
   }, [socket]);
 
   useEffect(() => {
-    if (
-      conversationData.length === 0 &&
-      Object.keys(currentConversation).length === 0
-    )
-      return;
-
-    const chatContainer = document.querySelector('.chat__body');
-    chatContainer.scrollTop = chatContainer.scrollHeight;
-  }, [conversationData]);
-
-  useEffect(() => {
-    if (Object.keys(currentConversation).length === 0) return;
+    if (Object.keys(currentContactSelected).length === 0) return;
 
     async function getMessages() {
       try {
         const response = await api.get('/chat', {
           params: {
             first_user_email: userData.email,
-            second_user_email: currentConversation.email,
+            second_user_email: currentContactSelected.email,
           },
           headers: {
             Authorization: `Bearer ${token}`,
@@ -90,7 +79,7 @@ function Chat({ userData, currentConversation, socket, room }) {
     }
 
     getMessages();
-  }, [currentConversation]);
+  }, [currentContactSelected]);
 
   return (
     <div className='chat__container'>
@@ -99,12 +88,12 @@ function Chat({ userData, currentConversation, socket, room }) {
           <img src={ProfilePicture} alt='perfil' />
         </span>
 
-        <h2>{currentConversation.name}</h2>
+        <h2>{currentContactSelected.name}</h2>
       </div>
 
       <ChatBody
         conversationData={conversationData}
-        currentConversation={currentConversation}
+        currentContactSelected={currentContactSelected}
       />
 
       <div className='chat__footer'>
