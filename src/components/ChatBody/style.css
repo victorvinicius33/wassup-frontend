@@ -1,6 +1,6 @@
 .chat__body {
   max-height: calc(95% - 120px);
-  height: calc(95% - 120px);
+  min-height: calc(95% - 120px);
 
   overflow-y: scroll !important;
   overflow-wrap: break-word;

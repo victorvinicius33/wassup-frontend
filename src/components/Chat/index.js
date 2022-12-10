@@ -7,28 +7,13 @@ import { getItem } from '../../utils/localStorage';
 import { useEffect, useState } from 'react';
 import ChatBody from '../ChatBody';
 
-function Chat({
-  userData,
-  currentConversation,
-  socket,
-  allRooms,
-  conversationData,
-  setConversationData,
-}) {
+function Chat({ userData, currentConversation, socket, room }) {
   const token = getItem('token');
   const [currentMessage, setCurrentMessage] = useState('');
+  const [conversationData, setConversationData] = useState([]);
 
   async function sendMessage() {
     if (currentMessage === '') return;
-
-    const room = allRooms.find((room) => {
-      return (
-        (room.first_user_email === currentConversation.email &&
-          room.second_user_email === userData.email) ||
-        (room.second_user_email === currentConversation.email &&
-          room.first_user_email === userData.email)
-      );
-    });
 
     const messageData = {
       room: room.id,
@@ -65,9 +50,17 @@ function Chat({
   }
 
   useEffect(() => {
-    socket.on('receive_message', (data) => {
-      setConversationData((list) => [...list, data]);
-    });
+    if (
+      currentConversation.email === room.first_user_email ||
+      currentConversation.email === room.second_user_email
+    ) {
+      console.log(currentConversation.email);
+      console.log(room);
+      console.log(socket);
+      socket.on('receive_message', (data) => {
+        setConversationData((list) => [...list, data]);
+      });
+    }
   }, [socket]);
 
   useEffect(() => {
@@ -80,6 +73,37 @@ function Chat({
     const chatContainer = document.querySelector('.chat__body');
     chatContainer.scrollTop = chatContainer.scrollHeight;
   }, [conversationData]);
+
+  useEffect(() => {
+    if (Object.keys(currentConversation).length === 0) return;
+
+    async function getMessages() {
+      try {
+        const response = await api.get('/chat', {
+          params: {
+            first_user_email: userData.email,
+            second_user_email: currentConversation.email,
+          },
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (response.status > 204) return;
+
+        const sortedArray = response.data.sort((a, b) => {
+          return new Date(a.date) - new Date(b.date);
+        });
+
+        setConversationData(sortedArray);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    getMessages();
+  }, [currentConversation]);
 
   return (
     <div className='chat__container'>

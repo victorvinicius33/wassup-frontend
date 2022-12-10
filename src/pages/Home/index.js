@@ -69,7 +69,7 @@ function Home() {
     getAllChatRooms();
   }, []);
 
-  useEffect(() => {
+  /*useEffect(() => {
     if (Object.keys(currentConversation).length === 0) return;
 
     async function getMessages() {
@@ -98,7 +98,7 @@ function Home() {
     }
 
     getMessages();
-  }, [currentConversation]);
+  }, [currentConversation]); */
 
   return (
     <div className='home'>
@@ -123,10 +123,9 @@ function Home() {
         <div className='side-bar__contacts'>
           {userContacts.map((contact) => (
             <ContactCard
-              contact={contact}
               key={contact.id}
+              contact={contact}
               setCurrentConversation={setCurrentConversation}
-              setCurrentChatShowing={setCurrentChatShowing}
             />
           ))}
         </div>
@@ -137,15 +136,18 @@ function Home() {
             <h2>Inicie uma nova conversa!</h2>
           </div>
         ) : (
-          <Chat
-            userData={userData}
-            currentConversation={currentConversation}
-            socket={socket}
-            allRooms={allRooms}
-            conversationData={conversationData}
-            setConversationData={setConversationData}
-            currentChatShowing={currentChatShowing}
-          />
+          allRooms.map(
+            (room) =>
+              (currentConversation.email === room.first_user_email ||
+                currentConversation.email === room.second_user_email) && (
+                <Chat
+                  userData={userData}
+                  currentConversation={currentConversation}
+                  socket={socket}
+                  room={room}
+                />
+              )
+          )
         )}
       </div>
 

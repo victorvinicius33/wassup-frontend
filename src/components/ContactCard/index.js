@@ -1,7 +1,10 @@
 import './style.css';
 import DefaultProfilePicture from '../../assets/IMG_3084.jpg';
 
-function ContactCard({ contact, setCurrentConversation }) {
+function ContactCard({
+  contact,
+  setCurrentConversation
+}) {
   return (
     <div className='contact' onClick={() => setCurrentConversation(contact)}>
       <span className='contact__img-container'>
