@@ -101,7 +101,7 @@ function Chat({ userData, currentConversation, socket, room }) {
 
     getMessages();
   }, [currentConversation]);
-
+  
   return (
     <div className='chat__container'>
       <div className='chat__header'>

@@ -19,9 +19,9 @@ function ChatBody({ conversationData, currentConversation }) {
               </div>
               <div className='message__timestamp'>
                 <p id='time'>
-                  {new Date(message.time_sent).getHours() +
+                  {new Date(message.time_sent).getHours().toString().padStart(2, '0') +
                     ':' +
-                    new Date(message.time_sent).getMinutes()}
+                    new Date(message.time_sent).getMinutes().toString().padStart(2, '0')}
                 </p>
               </div>
             </div>
