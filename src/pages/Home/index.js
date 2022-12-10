@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import './style.css';
-import ProfilePicture from '../../assets/IMG_3084.jpg';
+import ProfilePicture from '../../assets/default-profile-picture.jpg';
 import Button from '../../assets/three-points-btn.svg';
 import ContactCard from '../../components/ContactCard';
 import ModalOptions from '../../components/ModalOptions';

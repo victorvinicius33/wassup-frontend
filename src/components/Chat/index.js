@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import './style.css';
-import ProfilePicture from '../../assets/IMG_3084.jpg';
+import ProfilePicture from '../../assets/default-profile-picture.jpg';
 import SendBtn from '../../assets/send-btn.svg';
 import api from '../../services/api';
 import { getItem } from '../../utils/localStorage';

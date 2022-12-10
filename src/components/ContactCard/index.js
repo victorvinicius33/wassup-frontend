@@ -1,5 +1,5 @@
 import './style.css';
-import DefaultProfilePicture from '../../assets/IMG_3084.jpg';
+import DefaultProfilePicture from '../../assets/default-profile-picture.jpg';
 
 function ContactCard({ contact, setcurrentContactSelected, currentContactSelected }) {
   return (
