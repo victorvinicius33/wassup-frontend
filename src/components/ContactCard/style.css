@@ -11,11 +11,12 @@
 }
 
 .contact--selected {
-  background-color: #2A3942;
+  background-color: #2a3942;
 }
 
 .contact__img-container {
   width: 50px;
+  min-width: 50px;
   height: 50px;
 }
 
@@ -29,7 +30,7 @@
 }
 
 .contact__info {
-  width: 300px;
+  max-width: 85%;
   margin-left: 15px;
 
   display: flex;
@@ -38,11 +39,17 @@
 }
 
 .contact__info-name {
-  color: #E9EDEF;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+
+  margin-right: 40px;
+
+  color: #e9edef;
   font-size: 17px;
 }
 
 .contact__last-message-time {
-  color: #8696A0;
+  color: #8696a0;
   font-size: 12px;
 }

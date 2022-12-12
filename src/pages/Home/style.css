@@ -62,3 +62,18 @@
   
   background-color: #111b21;
 }
+
+.chat-empty {
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chat-empty h2 {
+  color: #e9edef;
+
+  font-size: 4rem;
+  text-align: center;
+}

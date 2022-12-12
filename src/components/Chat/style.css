@@ -45,6 +45,7 @@
   align-items: center;
   justify-content: space-between;
 
+  gap: 20px;
   padding: 0 24px;
 
   background-color: #222e35;
@@ -56,16 +57,14 @@
   width: 92%;
 
   padding: 8px 0;
-  border-radius: 5px;
 
   padding-left: 15px;
 
   font-size: 1.6rem;
 
-  border: 1px solid #555555;
+  border: 1px solid #2a3842;
   border-radius: 5px;
 
-  border: 1px solid #2a3842;
   background-color: #2a3942;
   color: #e9edefe0;
 }
@@ -77,16 +76,4 @@
 .chat__footer button {
   all: unset;
   cursor: pointer;
-}
-
-.chat-empty {
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.chat-empty h2 {
-  color: #e9edef;
-  font-size: 4rem;
 }
