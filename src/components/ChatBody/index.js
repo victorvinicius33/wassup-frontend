@@ -1,21 +1,15 @@
 import './style.css';
 import { useEffect } from 'react';
 
-function ChatBody({ conversationData, currentContactSelected }) {
+function ChatBody({ contactMessages, currentContactSelected }) {
   useEffect(() => {
-    if (
-      conversationData.length === 0 &&
-      Object.keys(currentContactSelected).length === 0
-    )
-      return;
-
     const chatContainer = document.querySelector('.chat__body');
     chatContainer.scrollTop = chatContainer.scrollHeight;
-  }, [conversationData, currentContactSelected]);
+  }, [contactMessages, currentContactSelected]);
 
   return (
     <div className='chat__body'>
-      {conversationData.map((message) => {
+      {contactMessages.map((message) => {
         return (
           <div
             key={message.id}
@@ -30,11 +24,18 @@ function ChatBody({ conversationData, currentContactSelected }) {
               <div className='message__content'>
                 <p>{message.message_data}</p>
               </div>
+              
               <div className='message__timestamp'>
                 <p id='time'>
-                  {new Date(message.time_sent).getHours().toString().padStart(2, '0') +
+                  {new Date(message.time_sent)
+                    .getHours()
+                    .toString()
+                    .padStart(2, '0') +
                     ':' +
-                    new Date(message.time_sent).getMinutes().toString().padStart(2, '0')}
+                    new Date(message.time_sent)
+                      .getMinutes()
+                      .toString()
+                      .padStart(2, '0')}
                 </p>
               </div>
             </div>

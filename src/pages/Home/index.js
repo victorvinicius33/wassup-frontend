@@ -17,6 +17,7 @@ function Home() {
   const token = getItem('token');
   const [userData, setUserData] = useState({});
   const [userContacts, setUserContacts] = useState([]);
+  const [allConversationData, setAllConversationData] = useState([]);
   const [currentContactSelected, setcurrentContactSelected] = useState({});
   const [showOptions, setShowOptions] = useState(false);
   const [showAddContact, setShowAddContact] = useState(false);
@@ -63,8 +64,24 @@ function Home() {
       }
     }
 
+    async function getAllConversationData() {
+      try {
+        const response = await api.get('/chat', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (response.status > 204) return;
+        setAllConversationData([...response.data]);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
     getUserData();
     getAllChatRooms();
+    getAllConversationData();
   }, []);
 
   return (
@@ -104,19 +121,14 @@ function Home() {
             <h2>Inicie uma nova conversa!</h2>
           </div>
         ) : (
-          allRooms.map(
-            (room) =>
-              (currentContactSelected.email === room.first_user_email ||
-                currentContactSelected.email === room.second_user_email) && (
-                <Chat
-                  key={room.id}
-                  userData={userData}
-                  currentContactSelected={currentContactSelected}
-                  socket={socket}
-                  room={room}
-                />
-              )
-          )
+          <Chat
+            userData={userData}
+            currentContactSelected={currentContactSelected}
+            socket={socket}
+            setAllConversationData={setAllConversationData}
+            allConversationData={allConversationData}
+            allRooms={allRooms}
+          />
         )}
       </div>
 

@@ -7,13 +7,27 @@ import { getItem } from '../../utils/localStorage';
 import { useEffect, useState } from 'react';
 import ChatBody from '../ChatBody';
 
-function Chat({ userData, currentContactSelected, socket, room }) {
+function Chat({
+  userData,
+  currentContactSelected,
+  socket,
+  allConversationData,
+  setAllConversationData,
+  allRooms,
+}) {
   const token = getItem('token');
   const [currentMessage, setCurrentMessage] = useState('');
-  const [conversationData, setConversationData] = useState([]);
+  const [contactMessages, setContactMessages] = useState([]);
 
   async function sendMessage() {
     if (currentMessage === '') return;
+
+    const room = allRooms.find((room) => {
+      return (
+        room.first_user_email === currentContactSelected.email ||
+        room.second_user_email === currentContactSelected.email
+      );
+    });
 
     const messageData = {
       room: room.id,
@@ -23,16 +37,19 @@ function Chat({ userData, currentContactSelected, socket, room }) {
       time_sent: new Date(Date.now()).toLocaleString('pt-BR'),
     };
 
-    await socket.emit('send_message', messageData);
-
     try {
       const response = await api.post('/chat', messageData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
+      
+      messageData.id = response.data[0].id;
 
-      setConversationData((list) => [...list, response.data[0]]);
+      await socket.emit('send_message', messageData);
+
+      setAllConversationData([...allConversationData, response.data[0]]);
+      setContactMessages([...contactMessages, response.data[0]]);
       setCurrentMessage('');
     } catch (error) {
       console.log(error);
@@ -41,45 +58,24 @@ function Chat({ userData, currentContactSelected, socket, room }) {
 
   useEffect(() => {
     socket.on('receive_message', (data) => {
-      if (
-        data.sent_by === room.first_user_email ||
-        data.sent_by === room.second_user_email
-      ) {
-        setConversationData((list) => [...list, data]);
-      }
+      setAllConversationData((list) => [...list, data])
     });
   }, [socket]);
 
   useEffect(() => {
-    if (Object.keys(currentContactSelected).length === 0) return;
+    const getContactChatMessages = allConversationData.filter((message) => {
+      return (
+        message.sent_by === currentContactSelected.email ||
+        message.received_by === currentContactSelected.email
+      );
+    });
 
-    async function getMessages() {
-      try {
-        const response = await api.get('/chat', {
-          params: {
-            first_user_email: userData.email,
-            second_user_email: currentContactSelected.email,
-          },
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-        });
+    const sortedMessages = getContactChatMessages.sort((a, b) => {
+      return new Date(a.date) - new Date(b.date);
+    });
 
-        if (response.status > 204) return;
-
-        const sortedArray = response.data.sort((a, b) => {
-          return new Date(a.date) - new Date(b.date);
-        });
-
-        setConversationData(sortedArray);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-
-    getMessages();
-  }, [currentContactSelected]);
+    setContactMessages(sortedMessages);
+  }, [currentContactSelected, allConversationData]);
 
   return (
     <div className='chat__container'>
@@ -92,7 +88,7 @@ function Chat({ userData, currentContactSelected, socket, room }) {
       </div>
 
       <ChatBody
-        conversationData={conversationData}
+        contactMessages={contactMessages}
         currentContactSelected={currentContactSelected}
       />
 
