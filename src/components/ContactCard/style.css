@@ -30,26 +30,73 @@
 }
 
 .contact__info {
-  max-width: 85%;
+  width: 100%;
+  max-width: calc(100% - 63px);
   margin-left: 15px;
 
   display: flex;
   justify-content: space-between;
-  align-items: center;
+
+  gap: 5px;
 }
 
-.contact__info-name {
+.contact__info-left, .contact__info-right {
+  display: flex;
+  flex-direction: column;
+
+  gap: 5px;
+}
+
+.contact__info-left {
+  max-width: 80%;
+}
+
+.contact__info-left span {
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
 
   margin-right: 40px;
-
-  color: #e9edef;
-  font-size: 17px;
 }
 
-.contact__last-message-time {
+.info-left__name {
+  color: #e9edef;
+  font-size: 1.7rem;
+}
+
+.info-left__last-message {
+  text-align: left;
+  font-size: 1.4rem;
+
   color: #8696a0;
-  font-size: 12px;
+}
+
+.contact__info-right {
+  max-width: 20%;
+
+  text-align: right;
+}
+
+.info-right__last-message-time {
+  font-size: 1.2rem;
+  color: #8696a0;
+}
+
+.info-right__unread-messages {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.info-right__unread-messages  {
+  height: 20px;
+  
+  padding: 3.6px 4.8px 4.8px;
+  
+  font-size: 1.2rem;
+
+  border-radius: 15px;
+
+  color: #111B21;
+  background-color: #00A884;
 }

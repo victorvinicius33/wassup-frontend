@@ -18,10 +18,10 @@ function Home() {
   const [userData, setUserData] = useState({});
   const [userContacts, setUserContacts] = useState([]);
   const [allConversationData, setAllConversationData] = useState([]);
+  const [allRooms, setAllRooms] = useState([]);
   const [currentContactSelected, setcurrentContactSelected] = useState({});
   const [showOptions, setShowOptions] = useState(false);
   const [showAddContact, setShowAddContact] = useState(false);
-  const [allRooms, setAllRooms] = useState([]);
 
   useEffect(() => {
     async function getUserData() {
@@ -83,7 +83,7 @@ function Home() {
     getAllChatRooms();
     getAllConversationData();
   }, []);
-
+  
   return (
     <div className='home'>
       <div className='home__left'>
@@ -111,6 +111,7 @@ function Home() {
               contact={contact}
               setcurrentContactSelected={setcurrentContactSelected}
               currentContactSelected={currentContactSelected}
+              allConversationData={allConversationData}
             />
           ))}
         </div>

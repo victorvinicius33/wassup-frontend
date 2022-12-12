@@ -26,7 +26,7 @@ function ChatBody({ contactMessages, currentContactSelected }) {
               </div>
               
               <div className='message__timestamp'>
-                <p id='time'>
+                <p>
                   {new Date(message.time_sent)
                     .getHours()
                     .toString()

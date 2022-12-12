@@ -58,7 +58,7 @@ function Chat({
 
   useEffect(() => {
     socket.on('receive_message', (data) => {
-      setAllConversationData((list) => [...list, data])
+      setAllConversationData((list) => [...list, data]);
     });
   }, [socket]);
 

@@ -1,7 +1,36 @@
 import './style.css';
 import DefaultProfilePicture from '../../assets/default-profile-picture.jpg';
+import { useEffect, useState } from 'react';
 
-function ContactCard({ contact, setcurrentContactSelected, currentContactSelected }) {
+function ContactCard({
+  contact,
+  setcurrentContactSelected,
+  currentContactSelected,
+  allConversationData,
+}) {
+  const [lastMessage, setLastMessage] = useState({});
+
+  useEffect(() => {
+    const getContactChatMessages = allConversationData.filter((message) => {
+      return (
+        message.sent_by === contact.email ||
+        message.received_by === contact.email
+      );
+    });
+
+    const sortedMessages = getContactChatMessages.sort((a, b) => {
+      return new Date(a.date) - new Date(b.date);
+    });
+
+    const lastMessageInfo = {
+      sent_by: sortedMessages[sortedMessages.length - 1].sent_by,
+      data: sortedMessages[sortedMessages.length - 1].message_data,
+      time_sent: sortedMessages[sortedMessages.length - 1].time_sent,
+    };
+
+    setLastMessage(lastMessageInfo);
+  }, [allConversationData]);
+
   return (
     <div
       className={`contact contact${
@@ -14,10 +43,28 @@ function ContactCard({ contact, setcurrentContactSelected, currentContactSelecte
       </span>
 
       <div className='contact__info'>
-        <span className='contact__info-name'>{contact.name}</span>
-        <span className='contact__last-message-time'>
-          {contact.lastMessageTime}
-        </span>
+        <div className='contact__info-left'>
+          <span className='info-left__name'>{contact.name}</span>
+          <span className='info-left__last-message'>
+            {lastMessage.sent_by === contact.email
+              ? lastMessage.data
+              : `Você: ${lastMessage.data}`}
+          </span>
+        </div>
+        <div className='contact__info-right'>
+          <span className='info-right__last-message-time'>
+            {new Date(lastMessage.time_sent)
+              .getHours()
+              .toString()
+              .padStart(2, '0') +
+              ':' +
+              new Date(lastMessage.time_sent)
+                .getMinutes()
+                .toString()
+                .padStart(2, '0')}
+          </span>
+            <span className='info-right__unread-messages'>0</span>
+        </div>
       </div>
     </div>
   );
