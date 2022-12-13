@@ -21,7 +21,7 @@ function ContactCard({
     if (getContactChatMessages.length === 0) return;
 
     const sortedMessages = getContactChatMessages.sort((a, b) => {
-      return new Date(a.date) - new Date(b.date);
+      return new Date(a.time_sent) - new Date(b.time_sent);
     });
 
     const lastMessageInfo = {

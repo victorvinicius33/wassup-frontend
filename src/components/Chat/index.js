@@ -71,7 +71,7 @@ function Chat({
     });
 
     const sortedMessages = getContactChatMessages.sort((a, b) => {
-      return new Date(a.date) - new Date(b.date);
+      return new Date(a.time_sent) - new Date(b.time_sent);
     });
 
     setContactMessages(sortedMessages);
