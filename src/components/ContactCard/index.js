@@ -17,6 +17,8 @@ function ContactCard({
         message.received_by === contact.email
       );
     });
+    
+    if (getContactChatMessages.length === 0) return;
 
     const sortedMessages = getContactChatMessages.sort((a, b) => {
       return new Date(a.date) - new Date(b.date);
@@ -29,7 +31,7 @@ function ContactCard({
     };
 
     setLastMessage(lastMessageInfo);
-  }, [allConversationData]);
+  }, [allConversationData, contact]);
 
   return (
     <div
@@ -46,24 +48,28 @@ function ContactCard({
         <div className='contact__info-left'>
           <span className='info-left__name'>{contact.name}</span>
           <span className='info-left__last-message'>
-            {lastMessage.sent_by === contact.email
+            {Object.keys(lastMessage).length === 0
+              ? ''
+              : lastMessage.sent_by === contact.email
               ? lastMessage.data
               : `Você: ${lastMessage.data}`}
           </span>
         </div>
         <div className='contact__info-right'>
           <span className='info-right__last-message-time'>
-            {new Date(lastMessage.time_sent)
-              .getHours()
-              .toString()
-              .padStart(2, '0') +
-              ':' +
-              new Date(lastMessage.time_sent)
-                .getMinutes()
-                .toString()
-                .padStart(2, '0')}
+            {Object.keys(lastMessage).length === 0
+              ? ''
+              : new Date(lastMessage.time_sent)
+                  .getHours()
+                  .toString()
+                  .padStart(2, '0') +
+                ':' +
+                new Date(lastMessage.time_sent)
+                  .getMinutes()
+                  .toString()
+                  .padStart(2, '0')}
           </span>
-            <span className='info-right__unread-messages'>0</span>
+          <span className='info-right__unread-messages'>0</span>
         </div>
       </div>
     </div>
