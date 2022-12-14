@@ -6,6 +6,7 @@ import api from '../../services/api';
 import { getItem } from '../../utils/localStorage';
 import { useEffect, useState } from 'react';
 import ChatBody from '../ChatBody';
+import botResponseFunction from '../../utils/botResponseFunction';
 
 function Chat({
   userData,
@@ -48,6 +49,10 @@ function Chat({
 
       await socket.emit('send_message', messageData);
 
+      if (messageData.received_by === 'bot@gmail.com') {
+        handleChatBot(messageData);
+      }
+
       setAllConversationData([...allConversationData, response.data[0]]);
       setContactMessages([...contactMessages, response.data[0]]);
       setCurrentMessage('');
@@ -76,6 +81,40 @@ function Chat({
 
     setContactMessages(sortedMessages);
   }, [currentContactSelected, allConversationData]);
+
+  async function handleChatBot(data) {
+    const botResponse = botResponseFunction(data.message_data);
+
+    const messageData = {
+      room: data.room,
+      sent_by: 'bot@gmail.com',
+      received_by: userData.email,
+      message_data: botResponse,
+    };
+
+    try {
+      const response = await api.post('/chat', messageData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      messageData.id = response.data[0].id;
+      messageData.time_sent = response.data[0].time_sent;
+
+      function handleBotResponse() {
+        const sendMessage = setTimeout(() => {
+          setAllConversationData((list) => [...list, messageData]);
+        }, 2000);
+        
+        return () => clearTimeout(sendMessage);
+      }
+
+      handleBotResponse();
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
     <>
