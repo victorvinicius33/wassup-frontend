@@ -28,8 +28,8 @@ function ChatBody({ contactMessages, currentContactSelected }) {
               <div className='message__timestamp'>
                 <p>
                   {
-                    new Intl.DateTimeFormat('pt-BR', {
-                      timeZone: 'America/Sao_Paulo',
+                    new Intl.DateTimeFormat(Intl.DateTimeFormat().resolvedOptions().locale, {
+                      timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
                       timeStyle: 'short',
                     })
                       .format(new Date(message.time_sent))
