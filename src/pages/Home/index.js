@@ -83,7 +83,7 @@ function Home() {
     getAllChatRooms();
     getAllConversationData();
   }, []);
-  
+
   return (
     <div className='home'>
       <div className='home__left'>
@@ -117,20 +117,14 @@ function Home() {
         </div>
       </div>
       <div className='home__right'>
-        {Object.keys(currentContactSelected).length === 0 ? (
-          <div className='chat-empty'>
-            <h2>Inicie uma nova conversa!</h2>
-          </div>
-        ) : (
-          <Chat
-            userData={userData}
-            currentContactSelected={currentContactSelected}
-            socket={socket}
-            setAllConversationData={setAllConversationData}
-            allConversationData={allConversationData}
-            allRooms={allRooms}
-          />
-        )}
+        <Chat
+          userData={userData}
+          currentContactSelected={currentContactSelected}
+          socket={socket}
+          setAllConversationData={setAllConversationData}
+          allConversationData={allConversationData}
+          allRooms={allRooms}
+        />
       </div>
 
       {showAddContact && (

@@ -42,7 +42,7 @@ function Chat({
           Authorization: `Bearer ${token}`,
         },
       });
-      
+
       messageData.id = response.data[0].id;
       messageData.time_sent = response.data[0].time_sent;
 
@@ -78,34 +78,42 @@ function Chat({
   }, [currentContactSelected, allConversationData]);
 
   return (
-    <div className='chat__container'>
-      <div className='chat__header'>
-        <span className='chat__header__profile-picture'>
-          <img src={ProfilePicture} alt='perfil' />
-        </span>
+    <>
+      {Object.keys(currentContactSelected).length === 0 ? (
+        <div className='chat-empty'>
+          <h2>Inicie uma nova conversa!</h2>
+        </div>
+      ) : (
+        <div className='chat__container'>
+          <div className='chat__header'>
+            <span className='chat__header__profile-picture'>
+              <img src={ProfilePicture} alt='perfil' />
+            </span>
 
-        <h2>{currentContactSelected.name}</h2>
-      </div>
+            <h2>{currentContactSelected.name}</h2>
+          </div>
 
-      <ChatBody
-        contactMessages={contactMessages}
-        currentContactSelected={currentContactSelected}
-      />
+          <ChatBody
+            contactMessages={contactMessages}
+            currentContactSelected={currentContactSelected}
+          />
 
-      <div className='chat__footer'>
-        <input
-          placeholder='Mensagem'
-          value={currentMessage}
-          onChange={(e) => setCurrentMessage(e.target.value)}
-          onKeyPress={(event) => {
-            event.key === 'Enter' && sendMessage();
-          }}
-        />
-        <button onClick={sendMessage}>
-          <img src={SendBtn} alt='enviar' />
-        </button>
-      </div>
-    </div>
+          <div className='chat__footer'>
+            <input
+              placeholder='Mensagem'
+              value={currentMessage}
+              onChange={(e) => setCurrentMessage(e.target.value)}
+              onKeyPress={(event) => {
+                event.key === 'Enter' && sendMessage();
+              }}
+            />
+            <button onClick={sendMessage}>
+              <img src={SendBtn} alt='enviar' />
+            </button>
+          </div>
+        </div>
+      )}
+    </>
   );
 }
 
