@@ -24,18 +24,17 @@ function ChatBody({ contactMessages, currentContactSelected }) {
               <div className='message__content'>
                 <p>{message.message_data}</p>
               </div>
-              
+
               <div className='message__timestamp'>
                 <p>
-                  {new Date(message.time_sent)
-                    .getHours()
-                    .toString()
-                    .padStart(2, '0') +
-                    ':' +
-                    new Date(message.time_sent)
-                      .getMinutes()
-                      .toString()
-                      .padStart(2, '0')}
+                  {
+                    new Intl.DateTimeFormat('pt-BR', {
+                      timeZone: 'America/Sao_Paulo',
+                      timeStyle: 'short',
+                    })
+                      .format(new Date(message.time_sent))
+                      .split(' ')[0]
+                  }
                 </p>
               </div>
             </div>

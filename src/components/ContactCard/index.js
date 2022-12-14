@@ -17,7 +17,7 @@ function ContactCard({
         message.received_by === contact.email
       );
     });
-    
+
     if (getContactChatMessages.length === 0) return;
 
     const sortedMessages = getContactChatMessages.sort((a, b) => {
@@ -27,8 +27,16 @@ function ContactCard({
     const lastMessageInfo = {
       sent_by: sortedMessages[sortedMessages.length - 1].sent_by,
       data: sortedMessages[sortedMessages.length - 1].message_data,
-      time_sent: sortedMessages[sortedMessages.length - 1].time_sent,
     };
+
+    const usersDateAndTimePreferences = Intl.DateTimeFormat().resolvedOptions();
+
+    lastMessageInfo.time_sent = new Intl.DateTimeFormat(usersDateAndTimePreferences.locale, {
+      timeZone: usersDateAndTimePreferences.timeZone,
+      timeStyle: 'short',
+    })
+      .format(new Date(sortedMessages[sortedMessages.length - 1].time_sent))
+      .split(' ')[0];
 
     setLastMessage(lastMessageInfo);
   }, [allConversationData, contact]);
@@ -57,17 +65,7 @@ function ContactCard({
         </div>
         <div className='contact__info-right'>
           <span className='info-right__last-message-time'>
-            {Object.keys(lastMessage).length === 0
-              ? ''
-              : new Date(lastMessage.time_sent)
-                  .getHours()
-                  .toString()
-                  .padStart(2, '0') +
-                ':' +
-                new Date(lastMessage.time_sent)
-                  .getMinutes()
-                  .toString()
-                  .padStart(2, '0')}
+            {Object.keys(lastMessage).length === 0 ? '' : lastMessage.time_sent}
           </span>
           <span className='info-right__unread-messages'>0</span>
         </div>

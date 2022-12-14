@@ -34,7 +34,6 @@ function Chat({
       sent_by: userData.email,
       received_by: currentContactSelected.email,
       message_data: currentMessage,
-      time_sent: new Date(Date.now()).toLocaleString('pt-BR'),
     };
 
     try {
@@ -45,6 +44,7 @@ function Chat({
       });
       
       messageData.id = response.data[0].id;
+      messageData.time_sent = response.data[0].time_sent;
 
       await socket.emit('send_message', messageData);
 
