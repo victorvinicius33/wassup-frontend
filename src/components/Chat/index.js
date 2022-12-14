@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import './style.css';
-import ProfilePicture from '../../assets/default-profile-picture.jpg';
+import DefaultProfilePicture from '../../assets/default-profile-picture.jpg';
+import BotProfilePicture from '../../assets/bot-image.jpg';
 import SendBtn from '../../assets/send-btn.svg';
 import api from '../../services/api';
 import { getItem } from '../../utils/localStorage';
@@ -106,7 +107,7 @@ function Chat({
         const sendMessage = setTimeout(() => {
           setAllConversationData((list) => [...list, messageData]);
         }, 2000);
-        
+
         return () => clearTimeout(sendMessage);
       }
 
@@ -126,7 +127,14 @@ function Chat({
         <div className='chat__container'>
           <div className='chat__header'>
             <span className='chat__header__profile-picture'>
-              <img src={ProfilePicture} alt='perfil' />
+              <img
+                src={
+                  currentContactSelected.email === 'bot@gmail.com'
+                    ? BotProfilePicture
+                    : DefaultProfilePicture
+                }
+                alt='perfil'
+              />
             </span>
 
             <h2>{currentContactSelected.name}</h2>

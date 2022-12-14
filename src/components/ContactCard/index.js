@@ -1,5 +1,6 @@
 import './style.css';
 import DefaultProfilePicture from '../../assets/default-profile-picture.jpg';
+import BotProfilePicture from '../../assets/bot-image.jpg';
 import { useEffect, useState } from 'react';
 
 function ContactCard({
@@ -31,10 +32,13 @@ function ContactCard({
 
     const usersDateAndTimePreferences = Intl.DateTimeFormat().resolvedOptions();
 
-    lastMessageInfo.time_sent = new Intl.DateTimeFormat(usersDateAndTimePreferences.locale, {
-      timeZone: usersDateAndTimePreferences.timeZone,
-      timeStyle: 'short',
-    })
+    lastMessageInfo.time_sent = new Intl.DateTimeFormat(
+      usersDateAndTimePreferences.locale,
+      {
+        timeZone: usersDateAndTimePreferences.timeZone,
+        timeStyle: 'short',
+      }
+    )
       .format(new Date(sortedMessages[sortedMessages.length - 1].time_sent))
       .split(' ')[0];
 
@@ -49,7 +53,14 @@ function ContactCard({
       onClick={() => setcurrentContactSelected(contact)}
     >
       <span className='contact__img-container'>
-        <img src={DefaultProfilePicture} alt='usuário' />
+        <img
+          src={
+            contact.email === 'bot@gmail.com'
+              ? BotProfilePicture
+              : DefaultProfilePicture
+          }
+          alt='usuário'
+        />
       </span>
 
       <div className='contact__info'>
