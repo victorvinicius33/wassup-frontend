@@ -44,7 +44,7 @@ function ModalAddContact({ setShowAddContact, setUserContacts, userContacts }) {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
-        {error && <span>{error}</span>}
+        {error && <span className='modal-add-contact__error'>{error}</span>}
         <div className='modal-add-contact__btns'>
           <button onClick={handleAddContact}>Adicionar</button>
           <button onClick={() => setShowAddContact(false)}>Cancelar</button>

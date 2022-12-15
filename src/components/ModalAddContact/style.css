@@ -59,7 +59,7 @@
   padding: 12px 0;
   border-radius: 5px;
 
-  margin-top: 16px;
+  margin: 16px 0;
   padding-left: 15px;
 
   font-size: 1.6rem;
@@ -108,4 +108,10 @@
 
 .modal-add-contact__btns button:last-of-type {
   background-color: #ff576b;
+}
+
+.modal-add-contact__error {
+  font-size: 1.6rem;
+
+  color: #ff0000;
 }
