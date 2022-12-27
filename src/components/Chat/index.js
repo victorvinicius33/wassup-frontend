@@ -62,27 +62,6 @@ function Chat({
     }
   }
 
-  useEffect(() => {
-    socket.on('receive_message', (data) => {
-      setAllConversationData((list) => [...list, data]);
-    });
-  }, [socket]);
-
-  useEffect(() => {
-    const getContactChatMessages = allConversationData.filter((message) => {
-      return (
-        message.sent_by === currentContactSelected.email ||
-        message.received_by === currentContactSelected.email
-      );
-    });
-
-    const sortedMessages = getContactChatMessages.sort((a, b) => {
-      return new Date(a.time_sent) - new Date(b.time_sent);
-    });
-
-    setContactMessages(sortedMessages);
-  }, [currentContactSelected, allConversationData]);
-
   async function handleChatBot(data) {
     const botResponse = botResponseFunction(data.message_data);
 
@@ -116,6 +95,31 @@ function Chat({
       console.log(error);
     }
   }
+
+  useEffect(() => {
+    socket.on('receive_message', (data) => {
+      setAllConversationData((list) => [...list, data]);
+    });
+  }, [socket]);
+
+  useEffect(() => {
+    function orderMessagesByDate() {
+      const getContactChatMessages = allConversationData.filter((message) => {
+        return (
+          message.sent_by === currentContactSelected.email ||
+          message.received_by === currentContactSelected.email
+        );
+      });
+  
+      const sortedMessages = getContactChatMessages.sort((a, b) => {
+        return new Date(a.time_sent) - new Date(b.time_sent);
+      });
+  
+      setContactMessages(sortedMessages);
+    }
+
+    orderMessagesByDate();
+  }, [currentContactSelected, allConversationData]);
 
   return (
     <>

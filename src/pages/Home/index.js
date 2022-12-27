@@ -23,66 +23,74 @@ function Home() {
   const [showOptions, setShowOptions] = useState(false);
   const [showAddContact, setShowAddContact] = useState(false);
 
+  async function getUserData() {
+    try {
+      const response = await api.get('/user', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.status > 204) return;
+
+      const { contacts, ...userInfo } = response.data;
+
+      setUserData(userInfo);
+      setUserContacts(contacts);
+      await socket.emit('new_user', { userId: userInfo.id });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function getAllChatRooms() {
+    try {
+      const response = await api.get('/room', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.status > 204) return;
+
+      const rooms = response.data;
+      rooms.forEach((room) => {
+        socket.emit('join_room', room.id);
+      });
+
+      setAllRooms([...rooms]);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function getAllConversationData() {
+    try {
+      const response = await api.get('/chat', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.status > 204) return;
+      setAllConversationData([...response.data]);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   useEffect(() => {
-    async function getUserData() {
-      try {
-        const response = await api.get('/user', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        if (response.status > 204) return;
-
-        const { contacts, ...userInfo } = response.data;
-
-        setUserData(userInfo);
-        setUserContacts(contacts);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-
-    async function getAllChatRooms() {
-      try {
-        const response = await api.get('/room', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        if (response.status > 204) return;
-
-        const rooms = response.data;
-        rooms.forEach((room) => {
-          socket.emit('join_room', room.id);
-        });
-
-        setAllRooms([...rooms]);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-
-    async function getAllConversationData() {
-      try {
-        const response = await api.get('/chat', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        if (response.status > 204) return;
-        setAllConversationData([...response.data]);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-
     getUserData();
     getAllChatRooms();
     getAllConversationData();
   }, []);
+
+  useEffect(() => {
+    socket.on('new_contact', () => {
+      getUserData();
+      getAllChatRooms();
+    });
+  }, [socket]);
 
   return (
     <div className='home'>
@@ -130,8 +138,9 @@ function Home() {
       {showAddContact && (
         <ModalAddContact
           setShowAddContact={setShowAddContact}
-          setUserContacts={setUserContacts}
-          userContacts={userContacts}
+          socket={socket}
+          getUserData={getUserData}
+          getAllChatRooms={getAllChatRooms}
         />
       )}
     </div>

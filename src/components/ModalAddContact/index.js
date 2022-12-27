@@ -3,7 +3,12 @@ import api from '../../services/api';
 import { getItem } from '../../utils/localStorage';
 import { useState } from 'react';
 
-function ModalAddContact({ setShowAddContact, setUserContacts, userContacts }) {
+function ModalAddContact({
+  setShowAddContact,
+  socket,
+  getUserData,
+  getAllChatRooms,
+}) {
   const token = getItem('token');
   const [email, setEmail] = useState('');
   const [error, setError] = useState('');
@@ -26,15 +31,18 @@ function ModalAddContact({ setShowAddContact, setUserContacts, userContacts }) {
       );
 
       if (response.status > 204) return;
-
-      setUserContacts([...userContacts, response.data[0]]);
+      
+      getUserData();
+      getAllChatRooms();
       setShowAddContact(false);
+      await socket.emit('add_contact', response.data);
     } catch (error) {
       if (error.response.status <= 500) {
         return setError(error.response.data.message);
       }
     }
   }
+
   return (
     <div className='modal-add-contact__backdrop'>
       <div className='modal-add-contact__container'>
