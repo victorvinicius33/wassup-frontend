@@ -93,7 +93,7 @@ function Home() {
   }, [socket]);
 
   return (
-    <div className='home'>
+    <div className='home' onClick={() => showOptions && setShowOptions(false)}>
       <div className='home__left'>
         <div className='side-bar__profile'>
           <span className='side-bar__profile-picture'>

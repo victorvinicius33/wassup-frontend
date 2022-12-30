@@ -31,7 +31,7 @@ function ModalAddContact({
       );
 
       if (response.status > 204) return;
-      
+
       getUserData();
       getAllChatRooms();
       setShowAddContact(false);
@@ -47,16 +47,22 @@ function ModalAddContact({
     <div className='modal-add-contact__backdrop'>
       <div className='modal-add-contact__container'>
         <h2>Adicionar um novo contato</h2>
-        <input
-          placeholder='Digite email do contato'
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        {error && <span className='modal-add-contact__error'>{error}</span>}
-        <div className='modal-add-contact__btns'>
-          <button onClick={handleAddContact}>Adicionar</button>
-          <button onClick={() => setShowAddContact(false)}>Cancelar</button>
-        </div>
+        <form className='modal-add-contact__form'>
+          <input
+            placeholder='Digite email do contato'
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          {error && <span className='modal-add-contact__error'>{error}</span>}
+          <div className='modal-add-contact__btns'>
+            <button type='submit' onClick={handleAddContact}>
+              Adicionar
+            </button>
+            <button type='button' onClick={() => setShowAddContact(false)}>
+              Cancelar
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );
