@@ -2,6 +2,7 @@ import './style.css';
 import api from '../../services/api';
 import { getItem } from '../../utils/localStorage';
 import { useState } from 'react';
+import useGlobal from '../../hooks/useGlobal';
 
 function ModalAddContact({
   setShowAddContact,
@@ -9,6 +10,10 @@ function ModalAddContact({
   getUserData,
   getAllChatRooms,
 }) {
+  const {
+    setOpenModalSuccess,
+    setSuccessMessage,
+  } = useGlobal();
   const token = getItem('token');
   const [email, setEmail] = useState('');
   const [error, setError] = useState('');
@@ -35,6 +40,9 @@ function ModalAddContact({
       getUserData();
       getAllChatRooms();
       setShowAddContact(false);
+      setSuccessMessage('Usuário adicionado com sucesso!');
+      setOpenModalSuccess(true);
+      setEmail('');
       await socket.emit('add_contact', response.data);
     } catch (error) {
       if (error.response.status <= 500) {
