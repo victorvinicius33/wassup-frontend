@@ -1,6 +1,6 @@
 .chat__body {
-  max-height: calc(95% - 120px);
-  min-height: calc(95% - 120px);
+  max-height: calc(100vh - 120px);
+  min-height: calc(100vh - 120px);
 
   overflow-y: scroll !important;
   overflow-wrap: break-word;
@@ -11,12 +11,26 @@
 
   gap: 10px;
 
-  padding: 0 50px 0 70px;
+  padding: 20px 50px 8px 70px;
+}
+
+.chat__body::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.chat__body::-webkit-scrollbar-track {
+  background-color: #111b21;
+}
+
+.chat__body::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, .1);
 }
 
 .message {
   max-width: 45%;
 
+  margin-bottom: 8px;
   padding: 3px 7px 6px 9px;
   border-radius: 7.5px;
 

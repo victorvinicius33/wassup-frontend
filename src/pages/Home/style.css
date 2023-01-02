@@ -5,11 +5,30 @@
   display: flex;
 
   background-color: #111b21;
+
+  overflow-y: hidden;
 }
 
 .home__left {
   width: 30%;
-  overflow-y: scroll;
+}
+
+.side-bar__contacts {
+  max-height: calc(100vh - 60px);
+  overflow-y: auto;
+}
+
+.side-bar__contacts::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.side-bar__contacts::-webkit-scrollbar-track {
+  background-color: #111b21;
+}
+
+.side-bar__contacts::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, .1);
 }
 
 .side-bar__profile {

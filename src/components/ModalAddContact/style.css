@@ -1,4 +1,4 @@
-::-webkit-scrollbar {
+.modal-add-contact__backdrop::-webkit-scrollbar {
   display: none;
 }
 
