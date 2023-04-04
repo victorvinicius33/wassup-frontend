@@ -109,6 +109,8 @@
 }
 
 .sign-up__error-message {
+  max-width: 300px;
+  text-align: center;
   font-size: 1.6rem;
 
   color: #ff0000;
